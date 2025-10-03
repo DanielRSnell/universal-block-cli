@@ -22,17 +22,17 @@ npm install -g @universal-block/cli
 
 ### Convert HTML to Block Markup
 
-Convert HTML files to WordPress block JSON format:
+Convert HTML files to WordPress block markup format:
 
 ```bash
-# Convert a single file
+# Convert a single file (WordPress markup format - default)
 universal-block html-to-blocks templates/hero.html
 
 # Convert entire directory
 universal-block html-to-blocks templates/ -o blocks/
 
-# With pretty JSON formatting
-universal-block html-to-blocks templates/ --pretty
+# Output as JSON format instead
+universal-block html-to-blocks templates/ --format json --pretty
 
 # Custom file pattern
 universal-block html-to-blocks templates/ -p "**/*.html" -o blocks/
@@ -41,7 +41,8 @@ universal-block html-to-blocks templates/ -p "**/*.html" -o blocks/
 **Options:**
 - `-o, --output <path>` - Output directory (default: `./blocks`)
 - `-p, --pattern <pattern>` - Glob pattern for HTML files (default: `**/*.html`)
-- `--pretty` - Pretty print JSON output
+- `--format <format>` - Output format: `wp` (WordPress markup) or `json` (default: `wp`)
+- `--pretty` - Pretty print output
 
 ### Convert Block Markup to HTML
 

@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const { glob } = require('glob');
-const { parseHTMLToBlocks, parseBlocksToHTML } = require('../src/index');
+const { parseHTMLToBlocks, parseBlocksToHTML, parseBlocksToWPMarkup } = require('../src/index');
 
 const program = new Command();
 
@@ -24,11 +24,12 @@ program
  */
 program
 	.command('html-to-blocks')
-	.description('Convert HTML files to WordPress block markup (JSON)')
+	.description('Convert HTML files to WordPress block markup')
 	.argument('<input>', 'Input directory or file path')
 	.option('-o, --output <path>', 'Output directory (default: ./blocks)')
 	.option('-p, --pattern <pattern>', 'Glob pattern for HTML files (default: **/*.html)', '**/*.html')
-	.option('--pretty', 'Pretty print JSON output', false)
+	.option('--format <format>', 'Output format: wp (WordPress markup) or json (default: wp)', 'wp')
+	.option('--pretty', 'Pretty print output', false)
 	.action(async (input, options) => {
 		try {
 			const outputDir = options.output || './blocks';
@@ -74,9 +75,11 @@ program
 					const relativePath = stats.isDirectory()
 						? path.relative(input, file)
 						: path.basename(file);
+
+					const outputExt = options.format === 'json' ? '.json' : '.html';
 					const outputFile = path.join(
 						outputDir,
-						relativePath.replace(/\.html$/, '.json')
+						relativePath.replace(/\.html$/, outputExt)
 					);
 
 					// Ensure output subdirectory exists
@@ -85,12 +88,19 @@ program
 						fs.mkdirSync(outputSubdir, { recursive: true });
 					}
 
-					// Write JSON file
-					const json = options.pretty
-						? JSON.stringify(blocks, null, 2)
-						: JSON.stringify(blocks);
+					// Generate output based on format
+					let output;
+					if (options.format === 'json') {
+						// JSON format
+						output = options.pretty
+							? JSON.stringify(blocks, null, 2)
+							: JSON.stringify(blocks);
+					} else {
+						// WordPress markup format (default)
+						output = parseBlocksToWPMarkup(blocks);
+					}
 
-					fs.writeFileSync(outputFile, json, 'utf-8');
+					fs.writeFileSync(outputFile, output, 'utf-8');
 
 					console.log(chalk.green('✓'), chalk.gray(relativePath), '→', chalk.cyan(path.basename(outputFile)));
 					successCount++;
