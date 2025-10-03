@@ -92,12 +92,29 @@ The CLI supports all Universal Block dynamic tags:
 </if>
 ```
 
+## Important Notes
+
+### Style Attributes
+
+The `style` attribute is automatically converted to `data-style` to prevent Gutenberg preview issues:
+
+```html
+<!-- Your HTML -->
+<div style="background: red;">Content</div>
+
+<!-- Automatically becomes -->
+<div data-style="background: red;">Content</div>
+```
+
+This is applied on the frontend by the Universal Block plugin, keeping the editor preview clean.
+
 ## Tips
 
 1. **Use `--pretty`** for readable output
 2. **Organize templates** in directories (e.g., `templates/sections/`, `templates/components/`)
 3. **Version control** - Commit both HTML and JSON for team collaboration
 4. **Test templates** in WordPress before sharing
+5. **Use `style` normally** - The CLI handles the conversion automatically
 
 ## Common Commands
 

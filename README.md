@@ -265,6 +265,31 @@ const html = parseBlocksToHTML(blocks, { pretty: true });
 - ✅ Dynamic tags (`<set>`, `<loop>`, `<if>`)
 - ✅ Twig syntax (`{{ }}`, `{% %}`)
 
+### Important: Style Attribute Handling
+
+**The `style` attribute is automatically converted to `data-style` to prevent Gutenberg preview issues.**
+
+```html
+<!-- Input HTML -->
+<div style="background: red;">Content</div>
+
+<!-- Converted to -->
+<!-- wp:universal/element {"globalAttrs":{"data-style":"background: red;"},...} -->
+```
+
+**Why?** Inline `style` attributes can break Gutenberg's block preview system. The Universal Block plugin automatically applies `data-style` attributes to elements on the frontend while keeping the editor preview clean.
+
+**Usage in templates:**
+```html
+<!-- Use style as normal in your HTML templates -->
+<div class="hero" style="background-image: url('{{ post.meta('bg_image') }}');">
+  Content
+</div>
+
+<!-- It will automatically convert to data-style in the block markup -->
+<!-- The style will be applied on the frontend via the plugin -->
+```
+
 ## Limitations
 
 - Inline `<script>` tags are preserved but not executed
