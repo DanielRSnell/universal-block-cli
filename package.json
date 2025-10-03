@@ -1,0 +1,32 @@
+{
+  "name": "@universal-block/cli",
+  "version": "1.0.0",
+  "description": "CLI tool to convert HTML templates to WordPress Universal Block markup and vice versa",
+  "main": "src/index.js",
+  "bin": {
+    "universal-block": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "node bin/cli.js --help"
+  },
+  "keywords": [
+    "wordpress",
+    "gutenberg",
+    "blocks",
+    "html",
+    "template",
+    "cli"
+  ],
+  "author": "",
+  "license": "GPL-2.0-or-later",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2",
+    "glob": "^10.0.0",
+    "jsdom": "^23.0.0"
+  },
+  "devDependencies": {}
+}

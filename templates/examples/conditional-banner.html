@@ -1,0 +1,8 @@
+<set variable="show_banner" value="post.meta('show_banner')" />
+<set variable="banner_text" value="post.meta('banner_text')" />
+
+<if source="show_banner">
+  <div class="banner bg-yellow-400 text-black py-4 px-6 rounded-lg mb-8">
+    <p class="text-center font-semibold">{{ banner_text }}</p>
+  </div>
+</if>
